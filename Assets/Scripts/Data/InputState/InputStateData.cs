@@ -1,8 +1,11 @@
+using System;
+
 namespace Data
 {
     /// <summary>
     /// Данные состояния
     /// </summary>
+    [Serializable]
     public class InputStateData
     {
         /// <summary>

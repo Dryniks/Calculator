@@ -7,5 +7,10 @@ namespace Presentation
     /// </summary>
     public interface IInputFieldStatePresenter : IPresenter<InputFieldStateModel, IInputFieldStateModelReceiver>
     {
+        /// <summary>
+        /// Задать данные
+        /// </summary>
+        /// <param name="data">Данные</param>
+        void SetData(string data);
     }
 }

@@ -12,7 +12,7 @@ namespace Domain
         // private const string Error = "Error";
         //
         private readonly IInputStateRepository _repository;
-        private readonly IInputFieldStatePresenter _inputField;
+        private readonly IInputFieldStatePresenter _presenter;
         private readonly CancellationTokenSource _cts;
 
         // private StringBuilder _stringBuilder = new();
@@ -20,22 +20,21 @@ namespace Domain
         public InputFieldStateUseCase
         (
             IInputStateRepository repository,
-            IInputFieldStatePresenter inputField,
+            IInputFieldStatePresenter presenter,
             CancellationTokenSource cts
         )
         {
-            _cts = cts;
             _repository = repository;
-            _inputField = inputField;
+            _presenter = presenter;
+            _cts = cts;
 
             _repository.SetReceiver(this);
-            _inputField.SetReceiver(this);
+            _presenter.SetReceiver(this);
         }
 
         public void SetEntity(InputStateEntity entity)
         {
-            var model = new InputFieldStateModel(entity.State);
-            _inputField.SetModel(model);
+            _presenter.SetData(entity.State);
         }
 
         public void SetModel(InputFieldStateModel model)
@@ -45,7 +44,7 @@ namespace Domain
 
         public void Destroy()
         {
-            _inputField.Destroy();
+            _presenter.Destroy();
             _repository.Destroy();
         }
 

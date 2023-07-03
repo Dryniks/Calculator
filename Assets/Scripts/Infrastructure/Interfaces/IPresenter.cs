@@ -8,12 +8,6 @@ namespace Infrastructure
     public interface IPresenter<in TModel, in TReceiver> where TModel : Model where TReceiver : IModelReceiver<TModel>
     {
         /// <summary>
-        /// Задать модель
-        /// </summary>
-        /// <param name="model">Модель</param>
-        void SetModel(TModel model);
-
-        /// <summary>
         /// Задать получателя модели
         /// </summary>
         /// <param name="receiver">Получатель модели</param>

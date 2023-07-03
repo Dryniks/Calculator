@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Presentation
 {
     /// <summary>
@@ -8,21 +6,23 @@ namespace Presentation
     public class InputFieldStatePresenter : IInputFieldStatePresenter
     {
         private readonly InputFieldStateView _view;
+        private readonly InputFieldStateModel _model;
 
-        private InputFieldStateModel _model;
         private IInputFieldStateModelReceiver _receiver;
 
         public InputFieldStatePresenter(InputFieldStateView view)
         {
             _view = view;
             _view.ApplicationStateChange += OnApplicationStateChange;
+
+            _model = new InputFieldStateModel();
+            _model.Changed += OnModelChanged;
         }
 
         /// <inheritdoc />
-        public void SetModel(InputFieldStateModel fieldModel)
+        public void SetData(string data)
         {
-            _model = fieldModel;
-            _view.SetData(_model.Data);
+            _model.Data = data;
         }
 
         /// <inheritdoc />
@@ -31,18 +31,23 @@ namespace Presentation
             _receiver = receiver;
         }
 
-        private void OnApplicationStateChange(string result)
+        private void OnModelChanged(string data)
         {
-            _model.Data = result;
-            _receiver.SetModel(_model);
+            _view.SetData(data);
         }
 
-        /// <summary>
-        /// Уничтожить пресентер
-        /// </summary>
+        private void OnApplicationStateChange(string result)
+        {
+            SetData(result);
+            _receiver?.SetModel(_model);
+        }
+
+        /// <inheritdoc />
         public void Destroy()
         {
-            Object.Destroy(_view.gameObject);
+            _model.Changed -= OnModelChanged;
+            _model.Destroy();
+
             _view.ApplicationStateChange -= OnApplicationStateChange;
         }
     }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Presentation
 {
@@ -8,17 +10,30 @@ namespace Presentation
     /// </summary>
     public class AnchorsView : MonoBehaviour
     {
+        [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private List<Transform> _anchors;
-        [SerializeField] private float _step;
+        [SerializeField] private Transform _upperAnchor;
+        [SerializeField] private Transform _scroll;
+
+        private float StartSizeY;
+
+        private void Awake()
+        {
+            StartSizeY = _rectTransform.rect.size.y;
+        }
 
         /// <summary>
         /// Обновить скейлы
         /// </summary>
-        /// <param name="count">Количество элементов истории</param>
-        public void UpdateScale(int count)
+        public void UpdateScale()//TODO РАссчет!!!
         {
+            Debug.LogError($"{_scrollRect.content.rect.size.y} {_scrollRect.viewport.rect.y}");
+            var minSize = Math.Min(_scrollRect.content.rect.size.y, Math.Abs(_scrollRect.viewport.rect.y));
+            Debug.LogError($"{minSize} {StartSizeY}");
+            var percentSizeY = (StartSizeY + minSize) / StartSizeY;
             var scale = transform.localScale;
-            scale.y = 1 + count * _step;
+            scale.y = percentSizeY;
             transform.localScale = scale;
 
             foreach (var anchor in _anchors)
@@ -27,6 +42,12 @@ namespace Presentation
                 anchorScale.y = 1 / scale.y;
                 anchor.localScale = anchorScale;
             }
+
+            _scroll.position = _upperAnchor.transform.position;
+
+            var scrollScale = _scroll.localScale;
+            scrollScale.y = 1 / scale.y;
+            _scroll.localScale = scrollScale;
         }
     }
 }

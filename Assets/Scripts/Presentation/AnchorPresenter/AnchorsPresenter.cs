@@ -8,19 +8,16 @@ namespace Presentation
     public class AnchorsPresenter : IAnchorPresenter
     {
         private readonly AnchorsView _view;
-        private readonly int _maxElementCount;
 
-        public AnchorsPresenter(AnchorsView view, int maxElementCount)
+        public AnchorsPresenter(AnchorsView view)
         {
             _view = view;
-            _maxElementCount = maxElementCount;
         }
         
         /// <inheritdoc />
         public void SetCountElements(int count)
         {
-            var currentCount = Math.Min(count, _maxElementCount);
-            _view.UpdateScale(currentCount);
+            _view.UpdateScale();
         }
         
         /// <inheritdoc />

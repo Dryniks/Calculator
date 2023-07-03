@@ -20,7 +20,6 @@ namespace Calculator
         [Space(20), Header("HistoryElements")] 
         [SerializeField] private HistoryView _historyView;
         [SerializeField] private HistoryViewElement _historyViewElementPrefab;
-        [SerializeField] private int _maxHistoryElements;
 
         [Space(20), Header("Anchors")] 
         [SerializeField] private AnchorsView _anchorsView;
@@ -60,7 +59,7 @@ namespace Calculator
 
         private void CreateHistoryLayers(IHistoryRepository repository)
         {
-            var presenter = new HistoryPresenter(_historyView, _historyViewElementPrefab, _maxHistoryElements);
+            var presenter = new HistoryPresenter(_historyView, _historyViewElementPrefab);
             var useCase = new HistoryUseCase(repository, presenter);
 
             _useCases.Add(useCase);
@@ -68,7 +67,7 @@ namespace Calculator
 
         private void CreateAnchorLayers(IHistoryElementsCountRepository repository)
         {
-            var presenter = new AnchorsPresenter(_anchorsView, _maxHistoryElements);
+            var presenter = new AnchorsPresenter(_anchorsView);
             var useCase = new AnchorsUseCase(presenter, repository);
             
             _useCases.Add(useCase);

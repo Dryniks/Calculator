@@ -20,6 +20,11 @@ namespace Data
         private const char EqualSign = '=';
 
         /// <summary>
+        /// Пустой символ
+        /// </summary>
+        private const char EmptySymbol = ' ';
+
+        /// <summary>
         /// Сообщение ошибки
         /// </summary>
         private const string Error = "ERROR";
@@ -68,6 +73,9 @@ namespace Data
             var numbers = _data.Split(ArithmeticOperation);
             foreach (var number in numbers)
             {
+                if (number.Contains(EmptySymbol))
+                    return null;
+                
                 if (!int.TryParse(number, out var element))
                     return null;
 

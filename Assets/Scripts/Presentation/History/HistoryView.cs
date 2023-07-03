@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,17 +19,28 @@ namespace Presentation
 
         private void Awake()
         {
-            SetActiveScroll(false);
+            CalculateActiveScroll();
+            _historyScrollView.onValueChanged.AddListener(OnScrollSizeChanged); //TODO Из контроллера не успевает просчтиать
+        }
+
+        private void OnScrollSizeChanged(Vector2 arg0)
+        {
+            CalculateActiveScroll();
         }
 
         /// <summary>
-        /// Задать активность скроллу
+        /// Расчитать активность скролла
         /// </summary>
-        /// <param name="isActive">Активен ли</param>
-        public void SetActiveScroll(bool isActive)
+        private void CalculateActiveScroll()
         {
+            var isActive = _historyScrollView.viewport.rect.size.y < _historyScrollView.content.rect.size.y;
             _bar.gameObject.SetActive(isActive);
             _historyScrollView.vertical = isActive;
+        }
+
+        private void OnDestroy()
+        {
+            _historyScrollView.onValueChanged.RemoveListener(OnScrollSizeChanged);
         }
     }
 }

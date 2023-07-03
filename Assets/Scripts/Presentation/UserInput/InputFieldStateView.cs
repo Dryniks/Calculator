@@ -7,7 +7,7 @@ namespace Presentation
     /// <summary>
     /// Вьюшка пользовательского ввода
     /// </summary>
-    public class InputFieldView : BaseView
+    public class InputFieldStateView : MonoBehaviour
     {
         [SerializeField] private TMP_InputField _inputField;
         [SerializeField] private TMP_Text _field;

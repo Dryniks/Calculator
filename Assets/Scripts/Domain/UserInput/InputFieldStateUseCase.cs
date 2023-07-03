@@ -5,22 +5,22 @@ using Presentation;
 
 namespace Domain
 {
-    public class InputStateUseCase : IInputStateEntityReceiver, IInputStateModelReceiver, IUseCaseDestroyable
+    public class InputFieldStateUseCase : IInputStateEntityReceiver, IInputFieldStateModelReceiver, IUseCaseDestroyable
     {
         // private const char ArithmeticOperation = '+';
         // private const char EqualSign = '=';
         // private const string Error = "Error";
         //
         private readonly IInputStateRepository _repository;
-        private readonly IInputFieldPresenter _inputField;
+        private readonly IInputFieldStatePresenter _inputField;
         private readonly CancellationTokenSource _cts;
 
         // private StringBuilder _stringBuilder = new();
 
-        public InputStateUseCase
+        public InputFieldStateUseCase
         (
             IInputStateRepository repository,
-            IInputFieldPresenter inputField,
+            IInputFieldStatePresenter inputField,
             CancellationTokenSource cts
         )
         {
@@ -34,13 +34,13 @@ namespace Domain
 
         public void SetEntity(InputStateEntity entity)
         {
-            var model = new InputFieldModel(entity.State);
+            var model = new InputFieldStateModel(entity.State);
             _inputField.SetModel(model);
         }
 
-        public void SetModel(InputFieldModel fieldModel)
+        public void SetModel(InputFieldStateModel model)
         {
-            _repository.Update(fieldModel.Data, _cts.Token);
+            _repository.Update(model.Data, _cts.Token);
         }
 
         public void Destroy()

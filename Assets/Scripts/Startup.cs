@@ -12,7 +12,7 @@ namespace Calculator
 {
     public class Startup : MonoBehaviour
     {
-        [SerializeField] private InputFieldView _inputField;
+        [SerializeField] private InputFieldStateView _inputField;
         [SerializeField] private Button _button;
 
         private readonly CancellationTokenSource _cts = new();
@@ -30,8 +30,8 @@ namespace Calculator
             var repository = new InputStateRepository();
             await repository.Load(_cts.Token);
 
-            var presenter = new InputFieldPresenter(_inputField);
-            var useCase = new InputStateUseCase(repository, presenter, _cts);
+            var presenter = new InputFieldStatePresenter(_inputField);
+            var useCase = new InputFieldStateUseCase(repository, presenter, _cts);
 
             return useCase;
         }

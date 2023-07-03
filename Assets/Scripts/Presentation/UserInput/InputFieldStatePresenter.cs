@@ -5,28 +5,28 @@ namespace Presentation
     /// <summary>
     /// Пресентер ввода данных
     /// </summary>
-    public class InputFieldPresenter : IInputFieldPresenter
+    public class InputFieldStatePresenter : IInputFieldStatePresenter
     {
-        private readonly InputFieldView _view;
+        private readonly InputFieldStateView _view;
 
-        private InputFieldModel _model;
-        private IInputStateModelReceiver _receiver;
+        private InputFieldStateModel _model;
+        private IInputFieldStateModelReceiver _receiver;
 
-        public InputFieldPresenter(InputFieldView view)
+        public InputFieldStatePresenter(InputFieldStateView view)
         {
             _view = view;
             _view.ApplicationStateChange += OnApplicationStateChange;
         }
 
         /// <inheritdoc />
-        public void SetModel(InputFieldModel fieldModel)
+        public void SetModel(InputFieldStateModel fieldModel)
         {
             _model = fieldModel;
             _view.SetData(_model.Data);
         }
 
         /// <inheritdoc />
-        public void SetReceiver(IInputStateModelReceiver receiver)
+        public void SetReceiver(IInputFieldStateModelReceiver receiver)
         {
             _receiver = receiver;
         }
@@ -36,7 +36,6 @@ namespace Presentation
             _model.Data = result;
             _receiver.SetModel(_model);
         }
-
 
         /// <summary>
         /// Уничтожить пресентер

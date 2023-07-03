@@ -4,7 +4,7 @@ namespace Infrastructure
     /// Получатель модели
     /// </summary>
     /// <typeparam name="T">Тип модели</typeparam>
-    public interface IModelReceiver<in T> where T : struct
+    public interface IModelReceiver<in T> where T : Model
     {
         /// <summary>
         /// Задать модель

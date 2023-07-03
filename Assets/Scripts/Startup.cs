@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using Data;
 using Domain;
 using Infrastructure;
@@ -10,26 +8,32 @@ using Presentation;
 
 namespace Calculator
 {
+    /// <summary>
+    /// Точка входа
+    /// </summary>
     public class Startup : MonoBehaviour
     {
         [SerializeField] private InputFieldStateView _inputFieldStateView;
         [SerializeField] private UserInputView _userInputView;
+        [SerializeField] private HistoryView _historyView;
+
+        [Space] 
+        [SerializeField] private HistoryViewElement _historyViewElementPrefab;
 
         private readonly CancellationTokenSource _cts = new();
         private readonly List<IUseCaseDestroyable> _useCases = new();
 
         private async void Awake()
         {
-            var useCases = await Task.WhenAll
-            (
-                CreateInputStateLayers(),
-                CreateUserInputLayers()
-            );
-            foreach (var useCase in useCases)
-                _useCases.Add(useCase);
+            var historyRepository = new HistoryRepository();
+            await historyRepository.Load(_cts.Token);
+
+            CreateInputStateLayers();
+            CreateUserInputLayers(historyRepository);
+            CreateHistoryLayers(historyRepository);
         }
 
-        private async Task<IUseCaseDestroyable> CreateInputStateLayers()
+        private async void CreateInputStateLayers()
         {
             var repository = new InputStateRepository();
             await repository.Load(_cts.Token);
@@ -37,18 +41,23 @@ namespace Calculator
             var presenter = new InputFieldStatePresenter(_inputFieldStateView);
             var useCase = new InputFieldStateUseCase(repository, presenter, _cts);
 
-            return useCase;
+            _useCases.Add(useCase);
         }
 
-        private async Task<IUseCaseDestroyable> CreateUserInputLayers()
+        private void CreateUserInputLayers(IHistoryRepositoryUpdatable repository)
         {
-            var repository = new HistoryRepository();
-            await repository.Load(_cts.Token);
-
             var presenter = new UserInputPresenter(_userInputView);
             var useCase = new UserInputUseCase(repository, presenter, _cts);
 
-            return useCase;
+            _useCases.Add(useCase);
+        }
+
+        private void CreateHistoryLayers(IHistoryRepository repository)
+        {
+            var presenter = new HistoryPresenter(_historyView, _historyViewElementPrefab);
+            var useCase = new HistoryUseCase(repository, presenter);
+
+            _useCases.Add(useCase);
         }
 
         private void OnDestroy()

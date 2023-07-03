@@ -11,12 +11,16 @@ namespace Presentation
         private readonly HistoryModel _model;
         private readonly HistoryView _view;
         private readonly HistoryViewElement _prefab;
+        
+        private readonly int _maxElementCount;
+        
         private readonly List<HistoryViewElement> _elements = new();
 
-        public HistoryPresenter(HistoryView view, HistoryViewElement prefab)
+        public HistoryPresenter(HistoryView view, HistoryViewElement prefab, int maxElementCount)
         {
             _view = view;
             _prefab = prefab;
+            _maxElementCount = maxElementCount;
 
             _model = new HistoryModel();
             _model.Added += OnModelAdded;
@@ -31,6 +35,7 @@ namespace Presentation
         private void OnModelAdded(HistoryElement data)
         {
             _elements.Add(CreateElement(data));
+            _view.SetScrollData(_elements.Count >= _maxElementCount);
         }
 
         private HistoryViewElement CreateElement(HistoryElement data)

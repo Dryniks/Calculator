@@ -19,6 +19,7 @@ namespace Calculator
 
         [Space] 
         [SerializeField] private HistoryViewElement _historyViewElementPrefab;
+        [SerializeField] private int _maxHistoryElements;
 
         private readonly CancellationTokenSource _cts = new();
         private readonly List<IUseCaseDestroyable> _useCases = new();
@@ -54,7 +55,7 @@ namespace Calculator
 
         private void CreateHistoryLayers(IHistoryRepository repository)
         {
-            var presenter = new HistoryPresenter(_historyView, _historyViewElementPrefab);
+            var presenter = new HistoryPresenter(_historyView, _historyViewElementPrefab, _maxHistoryElements);
             var useCase = new HistoryUseCase(repository, presenter);
 
             _useCases.Add(useCase);

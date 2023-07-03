@@ -4,7 +4,7 @@ namespace Infrastructure
     /// Интерфейс пресентера с получателем
     /// </summary>
     /// <typeparam name="TModel">Модель</typeparam>
-    /// <typeparam name="TReceiver">Получатель</typeparam>
+    /// <typeparam name="TReceiver">Получатель Модели</typeparam>
     public interface IPresenterWithReceiver<in TModel, in TReceiver> : IPresenter
         where TModel : Model where TReceiver : IModelReceiver<TModel>
     {

@@ -3,7 +3,7 @@ using Infrastructure;
 namespace Data
 {
     /// <summary>
-    /// Энтити состояния поля воода
+    /// Энтити состояния поля ввода
     /// </summary>
     public class InputStateEntity : Entity
     {

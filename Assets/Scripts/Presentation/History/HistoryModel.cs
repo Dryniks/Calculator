@@ -27,7 +27,7 @@ namespace Presentation
         {
             var element = new HistoryElement(data);
             _elements.Add(element);
-            
+
             Added?.Invoke(element);
         }
 

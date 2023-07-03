@@ -3,7 +3,7 @@ using System;
 namespace Data
 {
     /// <summary>
-    /// Данные состояния
+    /// Данные состояния поля ввода
     /// </summary>
     [Serializable]
     public class InputStateData

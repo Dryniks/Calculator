@@ -652,12 +652,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a47a5bafd21b41a694ba1cf78b2b5c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 657410311}
+  _scrollRect: {fileID: 1251288190}
   _anchors:
   - {fileID: 314665654}
   - {fileID: 692763869}
   _upperAnchor: {fileID: 696201842}
   _scroll: {fileID: 1251288191}
-  _step: 0.16
 --- !u!1 &663431810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,7 +1111,6 @@ MonoBehaviour:
   _userInputView: {fileID: 657410312}
   _historyView: {fileID: 1251288189}
   _historyViewElementPrefab: {fileID: 2305784131080283536, guid: 5e8862e094466461da2c82e4c8102449, type: 3}
-  _maxHistoryElements: 7
   _anchorsView: {fileID: 657410313}
 --- !u!4 &1064273285
 Transform:

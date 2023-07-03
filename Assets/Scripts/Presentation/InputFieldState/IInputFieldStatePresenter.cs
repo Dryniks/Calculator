@@ -5,7 +5,7 @@ namespace Presentation
     /// <summary>
     /// Интерфейс пресендера ввода получения состояния данных
     /// </summary>
-    public interface IInputFieldStatePresenter : IPresenter<InputFieldStateModel, IInputFieldStateModelReceiver>
+    public interface IInputFieldStatePresenter : IPresenterWithReceiver<InputFieldStateModel, IInputFieldStateModelReceiver>
     {
         /// <summary>
         /// Задать данные

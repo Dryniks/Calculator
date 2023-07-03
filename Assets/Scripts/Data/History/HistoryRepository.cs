@@ -11,6 +11,9 @@ namespace Data
         private IHistoryEntityReceiver _receiver;
         private HistoryData _data;
 
+        /// <summary>
+        /// Имя файла, куда будут сохраняться данные
+        /// </summary>
         private const string Name = "history.json";
 
         /// <summary>
@@ -54,6 +57,7 @@ namespace Data
         {
             _data.Results.Clear();
             _data = null;
+            _receiver = null;
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Data
         /// <returns>Результат шифрования</returns>
         public string Encrypt(string source)
         {
-#if !UNITY_EDITOR
-            return source.EncryptAES(Key);
-#else
+// #if !UNITY_EDITOR
+//             return source.EncryptAES(Key);
+// #else
             return source;
-#endif
+// #endif
         }
 
         /// <summary>
@@ -28,11 +28,11 @@ namespace Data
         /// <returns>Результат расшифровки</returns>
         public string Decrypt(string source)
         {
-#if !UNITY_EDITOR
-            return source.DecryptAES(Key);
-#else
+// #if !UNITY_EDITOR
+//             return source.DecryptAES(Key);
+// #else
             return source;
-#endif
+// #endif
         }
     }
 }

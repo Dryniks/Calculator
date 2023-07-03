@@ -11,6 +11,9 @@ namespace Data
         private IInputStateEntityReceiver _receiver;
         private InputStateData _data;
 
+        /// <summary>
+        /// Имя файла, куда будут сохраняться данные
+        /// </summary>
         private const string Name = "state.json";
 
         /// <summary>
@@ -47,6 +50,7 @@ namespace Data
         /// <inheritdoc />
         public void Destroy()
         {
+            _receiver = null;
             _data = null;
         }
     }

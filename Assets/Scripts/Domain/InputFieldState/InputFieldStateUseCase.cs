@@ -5,47 +5,46 @@ using Presentation;
 
 namespace Domain
 {
-    public class InputStateUseCase : IInputStateEntityReceiver, IInputStateModelReceiver, IUseCaseDestroyable
+    public class InputFieldStateUseCase : IInputStateEntityReceiver, IInputFieldStateModelReceiver, IUseCaseDestroyable
     {
         // private const char ArithmeticOperation = '+';
         // private const char EqualSign = '=';
         // private const string Error = "Error";
         //
         private readonly IInputStateRepository _repository;
-        private readonly IInputFieldPresenter _inputField;
+        private readonly IInputFieldStatePresenter _presenter;
         private readonly CancellationTokenSource _cts;
 
         // private StringBuilder _stringBuilder = new();
 
-        public InputStateUseCase
+        public InputFieldStateUseCase
         (
             IInputStateRepository repository,
-            IInputFieldPresenter inputField,
+            IInputFieldStatePresenter presenter,
             CancellationTokenSource cts
         )
         {
-            _cts = cts;
             _repository = repository;
-            _inputField = inputField;
+            _presenter = presenter;
+            _cts = cts;
 
             _repository.SetReceiver(this);
-            _inputField.SetReceiver(this);
+            _presenter.SetReceiver(this);
         }
 
         public void SetEntity(InputStateEntity entity)
         {
-            var model = new InputFieldModel(entity.State);
-            _inputField.SetModel(model);
+            _presenter.SetData(entity.State);
         }
 
-        public void SetModel(InputFieldModel fieldModel)
+        public void SetModel(InputFieldStateModel model)
         {
-            _repository.Update(fieldModel.Data, _cts.Token);
+            _repository.Update(model.Data, _cts.Token);
         }
 
         public void Destroy()
         {
-            _inputField.Destroy();
+            _presenter.Destroy();
             _repository.Destroy();
         }
 

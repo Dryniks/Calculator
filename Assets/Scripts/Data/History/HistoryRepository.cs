@@ -6,9 +6,10 @@ namespace Data
     /// <summary>
     /// Репозиторий истории
     /// </summary>
-    public class HistoryRepository : IHistoryRepository, IHistoryRepositoryUpdatable
+    public class HistoryRepository : IHistoryRepository, IHistoryElementsCountRepository, IHistoryRepositoryUpdatable
     {
-        private IHistoryEntityReceiver _receiver;
+        private IHistoryEntityReceiver _historyReceiver;
+        private IHistoryEntityCountReceiver _countReceiver;
         private HistoryData _data;
 
         /// <summary>
@@ -28,10 +29,18 @@ namespace Data
         /// <inheritdoc />
         public void SetReceiver(IHistoryEntityReceiver receiver)
         {
-            _receiver = receiver;
+            _historyReceiver = receiver;
 
             foreach (var element in _data.Results)
                 SendEntity(element);
+        }
+        
+        /// <inheritdoc />
+        public void SetReceiver(IHistoryEntityCountReceiver receiver)
+        {
+            _countReceiver = receiver;
+
+            SendEntity();
         }
 
         /// <inheritdoc />
@@ -41,6 +50,7 @@ namespace Data
             _data.Results.Add(element);
 
             SendEntity(element);
+            SendEntity();
 
             await Storage.Save(_data, Name, token);
         }
@@ -49,15 +59,21 @@ namespace Data
         {
             var entity = new HistoryEntity(data.Result);
 
-            _receiver?.SetEntity(entity);
+            _historyReceiver?.SetEntity(entity);
         }
 
-        /// <inheritdoc />
+        private void SendEntity()
+        {
+            var entity = new HistoryCountEntity(_data.Results.Count);
+            
+            _countReceiver?.SetEntity(entity);
+        }
+        
         public void Destroy()
         {
             _data.Results.Clear();
             _data = null;
-            _receiver = null;
+            _historyReceiver = null;
         }
     }
 }

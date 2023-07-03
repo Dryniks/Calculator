@@ -22,7 +22,7 @@ namespace Data
         /// <summary>
         /// Сообщение ошибки
         /// </summary>
-        private const string Error = "Error";
+        private const string Error = "ERROR";
 
         /// <summary>
         /// Данные энтити

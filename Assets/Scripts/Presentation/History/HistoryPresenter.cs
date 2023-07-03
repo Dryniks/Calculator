@@ -35,7 +35,7 @@ namespace Presentation
         private void OnModelAdded(HistoryElement data)
         {
             _elements.Add(CreateElement(data));
-            _view.SetScrollData(_elements.Count >= _maxElementCount);
+            _view.SetActiveScroll(_elements.Count >= _maxElementCount);
         }
 
         private HistoryViewElement CreateElement(HistoryElement data)

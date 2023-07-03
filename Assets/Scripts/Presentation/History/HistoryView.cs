@@ -16,10 +16,19 @@ namespace Presentation
         /// </summary>
         public Transform Content => _historyScrollView.content;
 
-        public void SetScrollData(bool enable)
+        private void Awake()
         {
-            _bar.gameObject.SetActive(enable);
-            _historyScrollView.vertical = enable;
+            SetActiveScroll(false);
+        }
+
+        /// <summary>
+        /// Задать активность скроллу
+        /// </summary>
+        /// <param name="isActive">Активен ли</param>
+        public void SetActiveScroll(bool isActive)
+        {
+            _bar.gameObject.SetActive(isActive);
+            _historyScrollView.vertical = isActive;
         }
     }
 }

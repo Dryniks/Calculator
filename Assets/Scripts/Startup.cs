@@ -13,13 +13,17 @@ namespace Calculator
     /// </summary>
     public class Startup : MonoBehaviour
     {
+        [Header("Input")]
         [SerializeField] private InputFieldStateView _inputFieldStateView;
         [SerializeField] private UserInputView _userInputView;
+        
+        [Space(20), Header("HistoryElements")] 
         [SerializeField] private HistoryView _historyView;
-
-        [Space] 
         [SerializeField] private HistoryViewElement _historyViewElementPrefab;
         [SerializeField] private int _maxHistoryElements;
+
+        [Space(20), Header("Anchors")] 
+        [SerializeField] private AnchorsView _anchorsView;
 
         private readonly CancellationTokenSource _cts = new();
         private readonly List<IUseCaseDestroyable> _useCases = new();
@@ -32,6 +36,7 @@ namespace Calculator
             CreateInputStateLayers();
             CreateUserInputLayers(historyRepository);
             CreateHistoryLayers(historyRepository);
+            CreateAnchorLayers(historyRepository);
         }
 
         private async void CreateInputStateLayers()
@@ -61,6 +66,14 @@ namespace Calculator
             _useCases.Add(useCase);
         }
 
+        private void CreateAnchorLayers(IHistoryElementsCountRepository repository)
+        {
+            var presenter = new AnchorsPresenter(_anchorsView, _maxHistoryElements);
+            var useCase = new AnchorsUseCase(presenter, repository);
+            
+            _useCases.Add(useCase);
+        }
+        
         private void OnDestroy()
         {
             foreach (var useCase in _useCases)

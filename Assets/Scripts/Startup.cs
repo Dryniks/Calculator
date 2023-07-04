@@ -21,9 +21,6 @@ namespace Calculator
         [SerializeField] private HistoryView _historyView;
         [SerializeField] private HistoryViewElement _historyViewElementPrefab;
 
-        [Space(20), Header("Anchors")] 
-        [SerializeField] private AnchorsView _anchorsView;
-
         private readonly CancellationTokenSource _cts = new();
         private readonly List<IUseCaseDestroyable> _useCases = new();
 
@@ -35,7 +32,6 @@ namespace Calculator
             CreateInputStateLayers();
             CreateUserInputLayers(historyRepository);
             CreateHistoryLayers(historyRepository);
-            CreateAnchorLayers(historyRepository);
         }
 
         private async void CreateInputStateLayers()
@@ -65,14 +61,6 @@ namespace Calculator
             _useCases.Add(useCase);
         }
 
-        private void CreateAnchorLayers(IHistoryElementsCountRepository repository)
-        {
-            var presenter = new AnchorsPresenter(_anchorsView);
-            var useCase = new AnchorsUseCase(presenter, repository);
-            
-            _useCases.Add(useCase);
-        }
-        
         private void OnDestroy()
         {
             foreach (var useCase in _useCases)

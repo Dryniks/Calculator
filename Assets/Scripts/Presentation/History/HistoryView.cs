@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +22,7 @@ namespace Presentation
             _historyScrollView.onValueChanged.AddListener(OnScrollSizeChanged); //TODO Из контроллера не успевает просчтиать
         }
 
-        private void OnScrollSizeChanged(Vector2 arg0)
+        private void OnScrollSizeChanged(Vector2 _)
         {
             CalculateActiveScroll();
         }

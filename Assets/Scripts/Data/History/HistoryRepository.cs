@@ -6,10 +6,9 @@ namespace Data
     /// <summary>
     /// Репозиторий истории
     /// </summary>
-    public class HistoryRepository : IHistoryRepository, IHistoryElementsCountRepository, IHistoryRepositoryUpdatable
+    public class HistoryRepository : IHistoryRepository, IHistoryRepositoryUpdatable
     {
         private IHistoryEntityReceiver _historyReceiver;
-        private IHistoryEntityCountReceiver _countReceiver;
         private HistoryData _data;
 
         /// <summary>
@@ -34,14 +33,6 @@ namespace Data
             foreach (var element in _data.Results)
                 SendEntity(element);
         }
-        
-        /// <inheritdoc />
-        public void SetReceiver(IHistoryEntityCountReceiver receiver)
-        {
-            _countReceiver = receiver;
-
-            SendEntity();
-        }
 
         /// <inheritdoc />
         public async void Add(string data, CancellationToken token)
@@ -50,7 +41,6 @@ namespace Data
             _data.Results.Add(element);
 
             SendEntity(element);
-            SendEntity();
 
             await Storage.Save(_data, Name, token);
         }
@@ -62,13 +52,6 @@ namespace Data
             _historyReceiver?.SetEntity(entity);
         }
 
-        private void SendEntity()
-        {
-            var entity = new HistoryCountEntity(_data.Results.Count);
-            
-            _countReceiver?.SetEntity(entity);
-        }
-        
         public void Destroy()
         {
             _data.Results.Clear();

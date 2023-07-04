@@ -8,7 +8,7 @@ namespace Data
     /// </summary>
     public class HistoryRepository : IHistoryRepository, IHistoryRepositoryUpdatable
     {
-        private IHistoryEntityReceiver _receiver;
+        private IHistoryEntityReceiver _historyReceiver;
         private HistoryData _data;
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Data
         /// <inheritdoc />
         public void SetReceiver(IHistoryEntityReceiver receiver)
         {
-            _receiver = receiver;
+            _historyReceiver = receiver;
 
             foreach (var element in _data.Results)
                 SendEntity(element);
@@ -49,15 +49,14 @@ namespace Data
         {
             var entity = new HistoryEntity(data.Result);
 
-            _receiver?.SetEntity(entity);
+            _historyReceiver?.SetEntity(entity);
         }
 
-        /// <inheritdoc />
         public void Destroy()
         {
             _data.Results.Clear();
             _data = null;
-            _receiver = null;
+            _historyReceiver = null;
         }
     }
 }

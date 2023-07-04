@@ -13,11 +13,12 @@ namespace Calculator
     /// </summary>
     public class Startup : MonoBehaviour
     {
+        [Header("Input")]
         [SerializeField] private InputFieldStateView _inputFieldStateView;
         [SerializeField] private UserInputView _userInputView;
+        
+        [Space(20), Header("HistoryElements")] 
         [SerializeField] private HistoryView _historyView;
-
-        [Space] 
         [SerializeField] private HistoryViewElement _historyViewElementPrefab;
 
         private readonly CancellationTokenSource _cts = new();

@@ -10,3 +10,5 @@ obj
 Temp
 UserSettings
 .DS_Store
+test_BackUpThisFolder_ButDontShipItWithYourGame
+test_BurstDebugInformation_DoNotShip

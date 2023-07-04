@@ -11,6 +11,7 @@ namespace Presentation
         private readonly HistoryModel _model;
         private readonly HistoryView _view;
         private readonly HistoryViewElement _prefab;
+
         private readonly List<HistoryViewElement> _elements = new();
 
         public HistoryPresenter(HistoryView view, HistoryViewElement prefab)
